@@ -28,10 +28,10 @@ Rscript supervised_clustering_gene_variant-docu-L1-inb-Copy2.R \
 
 ## Example
 
-# input data
+### input data
 
 
-# output data
+### output data
 
 
 
