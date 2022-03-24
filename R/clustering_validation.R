@@ -49,7 +49,6 @@ supervised_clustering_val_all<- function(input_matrix, marker_index, marker_cuto
             load(paste(outdir,"/",km_name_t,"_delta_",delta,"_K_",kk_x,"_oob_",oob,"marker_cutoff",marker_cutoff_metrics,"_val_model.RData",sep="")) 
             flush.console() 
             print(paste("# predict cluster id and calculate the score for multiple phenotypes", Sys.time(),sep=" "))  
-           # save(km_mc_model, input_matrix, stat_go_weight_vector, marker_index, marker_cutoff_metrics, kk_x, num_oob,files='test1234.RData')
             km_mc_cluster_id_score_matrix <-validation_predict(km_mc_model, input_matrix, stat_go_weight_vector, marker_index, marker_cutoff_metrics, kk_x, num_oob)   
             write.table(km_mc_cluster_id_score_matrix[[1]],paste(outdir,"/",km_name,"_delta_",delta,"_K_",kk_x,"_oob_",oob,"marker_cutoff",marker_cutoff_metrics,"_replication.sig_validation.csv",sep=""), sep="\t", quote=F,col.names=T,row.names=F) 
             #print(km_mc_cluster_id_score_matrix)
@@ -58,7 +57,7 @@ supervised_clustering_val_all<- function(input_matrix, marker_index, marker_cuto
             mc_cluster_id<-km_mc_cluster_id_score_matrix[[3]]
             input_matrix$km_id<-km_cluster_id[match(rownames(input_matrix),names(km_cluster_id))]
             input_matrix$mc_id<-mc_cluster_id[match(rownames(input_matrix),names(mc_cluster_id))]
-            save(km_mc_cluster_id_score_matrix,input_matrix,km_mc_model, stat_go_weight_vector, marker_cutoff_metrics, km_name, kk_x, delta, file='testg_g.RData') 
+            save(km_mc_cluster_id_score_matrix,input_matrix,km_mc_model, stat_go_weight_vector, marker_cutoff_metrics, km_cluster_id, mc_cluster_id, km_name, kk_x, delta, file=paste(outdir,"/",km_name,"_delta_",delta,"_K_",kk_x,"_oob_",oob,"marker_cutoff",marker_cutoff_metrics,"_replication.sig_validation.RData",sep=""))
 
             # retrieve sample id and clin info for each cluster ( all clusters)     
             clin_data_tmp<<-clin_data[clin_data$formattedRID_LabCorpID %in% rownames(input_matrix),]
