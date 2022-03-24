@@ -7,7 +7,6 @@ This is supervised clustering with integrated weighting of both GO semantic simi
 
 
 ## Algorithm
-
 ![WGS_WORKFLOW](https://github.com/tzhang-nmdp/Supervised-clustering-survival/blob/main/Example/Pseudocode.PNG)
 
 ## Installation:
