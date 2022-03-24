@@ -38,10 +38,6 @@ opt=parse_args(opt_parser)
 input<-as.character(opt$input_file)
 load(input)
 
-# workflow control indicator
-opc<-as.character(opt$output_file)
-k_folds<-as.numeric(opt$input_kfolds)
-
 # outdir setting
 outdir<-as.character(opt$output_dir)
 system(paste('mkdir ', outdir,sep=''))
@@ -54,6 +50,10 @@ clin_data<-read.table("clin_data.csv",sep="\t",header=T,stringsAsFactors = F,com
 all_gene<-read.table("dbNSFP4.0_gene.complete_id",sep="\t",header=F,stringsAsFactors = F,comment.char = "")
 dim(all_gene)
 variant_gene_id_dict<-read.table("variant_gene_dict",sep="\t",header=F,stringsAsFactors = F,comment.char = "")
+
+# workflow control indicator
+opc<-as.character(opt$output_file)
+k_folds<-as.numeric(opt$input_kfolds)
 
 # parameter setting
 kk_x_list<-2:12
