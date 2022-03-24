@@ -5,6 +5,13 @@ This is supervised clustering with integrated weighting of both GO semantic simi
 ![WGS_WORKFLOW](https://github.com/tzhang-nmdp/Supervised-clustering-survival/blob/master/***.png)
 
 
+## Installation
+
+``` r
+library(devtools)
+install_github("arorarshi/survClust")
+```
+
 
 ## Algorithm
 
