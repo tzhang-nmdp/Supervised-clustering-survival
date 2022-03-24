@@ -3,6 +3,13 @@
 
 # author: Tao Zhang tzhang@nmdp.org
 
+# Example:
+# Rscript supervised_clustering_gene_variant-docu-L1-inb-Copy2.R \
+# -i  ${genomic_data}.RData \ # input matrix for genomic data
+# -o v/g \ # running model option ( 'v' for variant level of common variant analysis, 'g' for gene level of rare variant analysis)
+# -d ${outdir} \  # output directory
+# -k 5 # k_fold setting for cross-validation
+
 ################################################################################################################################################################################
 # loading the R packages
 
