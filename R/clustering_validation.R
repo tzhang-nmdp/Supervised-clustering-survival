@@ -1,4 +1,4 @@
-# these functions are under development (No available data for the fully testing)
+# these functions are under development (currently no available data for the fully testing)
 
 # Example :
 
