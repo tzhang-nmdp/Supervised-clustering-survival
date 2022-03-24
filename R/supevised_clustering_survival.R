@@ -46,9 +46,8 @@ system(paste('sudo chmod 777 -R ', outdir,sep=''))
 # clinical information data
 clin_data<-read.table("clin_data.csv",sep="\t",header=T,stringsAsFactors = F,comment.char = "")
 
-# gene/varaint file 
+# gene/varaint dict file 
 all_gene<-read.table("dbNSFP4.0_gene.complete_id",sep="\t",header=F,stringsAsFactors = F,comment.char = "")
-dim(all_gene)
 variant_gene_id_dict<-read.table("variant_gene_dict",sep="\t",header=F,stringsAsFactors = F,comment.char = "")
 
 # workflow control indicator
