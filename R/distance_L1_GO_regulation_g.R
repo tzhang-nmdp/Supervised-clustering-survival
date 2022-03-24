@@ -1,4 +1,4 @@
-# 1.0.2 function for matrix regulated by Lasso and GO of gene based matrix
+# The function for matrix regulated by Lasso and GO of gene based matrix
 
 distance_L1_GO_regulation_g<- function(input_matrix,marker_index,n_lambda)
     {
