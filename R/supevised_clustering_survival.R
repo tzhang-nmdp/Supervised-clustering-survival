@@ -61,7 +61,7 @@ km_name<-'genomic_vcf_'
 
 ################################################################################################################################################################################
      
-# work flow   
+# supervised clustering workflow   
 if (opc=="g") {                                
     km_name<-paste(km_name,opc,sep="")  
     save.image(file=paste('germ_somatic_vcf_gene_',opc,'.RData' ,sep="") )        
