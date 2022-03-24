@@ -1,5 +1,4 @@
-###############################################################################################################################################################################
-# 1.3 function for calculate weight factors from gene ontology itemized overpresentation
+# The function for calculate weight factors from gene ontology itemized overpresentation
                                               
 hsGO2 <- godata('org.Hs.eg.db', keytype = "SYMBOL", ont="MF", computeIC=FALSE)  
 gene_go_fraction<- function(cohort_go)
