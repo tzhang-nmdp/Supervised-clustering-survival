@@ -1,7 +1,67 @@
-    kk_x_list<-2:12
-    delta_list<-c( 0.01,seq(0,1,by=0.1),0.99)   
-    km_name<-'genomic_vcf_'
-    
+################################################################################################################################################################################# 
+# This program is for supervised clustering using two clustering algorithms Kmeans and Mclust, with weighted gene-variant mutation materix by statistical effects and GO similarity, under the cross-validation framework on multiple phenotypes ( mds sbutype, ipssr, hct-ci, overall survival)
+
+# author: Tao Zhang tzhang@nmdp.org
+
+################################################################################################################################################################################
+# loading the R packages
+
+library(optparse)
+library(cluster)
+library(reghelper)
+library(bios2mds)
+library(reshape2)
+library("RColorBrewer")
+library(Hmisc)
+library(stringr)
+library(glmnet)
+library(GOSemSim)
+library(org.Hs.eg.db)
+library('biomaRt')
+library(pheatmap)
+library(ggplot2)
+library(survival)
+library(survminer)
+library(doParallel)
+library(gridExtra)
+library(mclust)
+library(hash)
+
+################################################################################################################################################################################
+# loading the data and parameter settings
+
+option_list<-list(make_option(c("-i", "--input_file"),type="character",help="input file", default=NA,metavar="filename"), make_option(c("-d", "--output_dir"),type="character",help="output dir", default=NA,metavar="filename"), make_option(c("-o", "--output_file"),type="character",help="output file", default=NA,metavar="filename"), make_option(c("-k", "--input_kfolds"),type="character",help="input kfolds", default=NA,metavar="filename"))
+opt_parser<-OptionParser(option_list=option_list)
+opt=parse_args(opt_parser)
+
+# load genomic data
+input<-as.character(opt$input_file)
+load(input)
+
+# workflow control indicator
+opc<-as.character(opt$output_file)
+k_folds<-as.numeric(opt$input_kfolds)
+
+# outdir setting
+outdir<-as.character(opt$output_dir)
+system(paste('mkdir ', outdir,sep=''))
+system(paste('sudo chmod 777 -R ', outdir,sep=''))
+
+# clinical information data
+clin_data<-read.table("clin_data.csv",sep="\t",header=T,stringsAsFactors = F,comment.char = "")
+
+# gene/varaint file 
+all_gene<-read.table("dbNSFP4.0_gene.complete_id",sep="\t",header=F,stringsAsFactors = F,comment.char = "")
+dim(all_gene)
+variant_gene_id_dict<-read.table("variant_gene_dict",sep="\t",header=F,stringsAsFactors = F,comment.char = "")
+
+# parameter setting
+kk_x_list<-2:12
+delta_list<-c( 0.01,seq(0,1,by=0.1),0.99)   
+km_name<-'genomic_vcf_'
+
+################################################################################################################################################################################
+     
 # work flow   
 if (opc=="g") {                                
     km_name<-paste(km_name,opc,sep="")  
