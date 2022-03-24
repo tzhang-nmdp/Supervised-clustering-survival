@@ -1,4 +1,4 @@
-# 1.0.1 function for matrix regulated by Lasso and GO of variant based matrix
+# The function for matrix regulated by Lasso and GO of variant based matrix
 
 colrs=brewer.pal(7,"Set1")
 distance_L1_GO_regulation_v<- function(input_matrix,marker_index,n_lambda)
