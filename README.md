@@ -3,11 +3,12 @@ Supervised clustering survival
 
 This is supervised clustering with integrated weighting of both GO semantic similarity and statistical association effect, and mine the mutational clusters with strong survival outcome stratifications. 
 
+## Workflow:
 ![WGS_WORKFLOW](https://github.com/tzhang-nmdp/Supervised-clustering-survival/blob/main/Example/workflow.PNG)
 
 
-## Algorithm
-![WGS_WORKFLOW](https://github.com/tzhang-nmdp/Supervised-clustering-survival/blob/main/Example/Pseudocode.PNG)
+## Algorithm:
+![WORKFLOW](https://github.com/tzhang-nmdp/Supervised-clustering-survival/blob/main/Example/Pseudocode.PNG)
 
 ## Installation:
 
@@ -29,9 +30,14 @@ Rscript supervised_clustering_gene_variant-docu-L1-inb-Copy2.R \
 ## Example
 
 ### input data
-
+          gene_id/variant_id  gene_id/variant_id  ...  survival_time  survival_status 
+sample_id        0                   1            ...        12.00           1
+...             ...                 ...           ...         ...           ...
+sample_id        1                   0            ...        36.00           0
 
 ### output data
-
+1. Clustering model file: ***.model.RData
+2. Model metrics file: ***.csv
+3. Survival plot file: ***.tiff
 
 
