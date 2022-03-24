@@ -102,7 +102,8 @@ distance_L1_GO_regulation_g<- function(input_matrix,marker_index,n_lambda)
                                                         
     return(input_matrix_L1_reg)
     }
-
+                                                        
+################################################################################################################################################################################
 # The function for matrix regulated by Lasso and GO of variant based matrix
 
 colrs=brewer.pal(7,"Set1")
