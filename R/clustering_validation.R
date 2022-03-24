@@ -1,4 +1,9 @@
 # these functions are under development (No available data for the fully testing)
+
+# Example :
+
+# supervised_clustering_val_all(germ_somatic_vcf_reg, marker_index, marker_cutoff_metrics, km_name) 
+    
 #########################################################################################################################################################################
 # The validation/prediction function  
          
