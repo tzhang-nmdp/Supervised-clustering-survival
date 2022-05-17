@@ -1,4 +1,4 @@
-################################################################################################################################################################################# 
+#################################################################################################################################################################################
 # This program is for supervised clustering using two clustering algorithms Kmeans and Mclust, with weighted gene-variant mutation materix by statistical effects and GO similarity, under the cross-validation framework on multiple metrics (overall survival /clustering)
 
 # author: Tao Zhang tzhang@nmdp.org
@@ -29,7 +29,7 @@ library(mclust)
 library(hash)
 
 # load the packages
-sources_path <- c("/SCCW_folder/")  
+sources_path <- c("C:/Users/tzhang/Supervised-clustering-survival")
 file.sources = list.files(sources_path,pattern="*.R")
 sapply(file.sources,source,.GlobalEnv)
 
@@ -53,7 +53,7 @@ system(paste('sudo chmod 777 -R ', outdir,sep=''))
 clin_data<-read.table("dat.csv.cr",sep="\t",header=T,stringsAsFactors = F,comment.char = "")
 clin_data_kn<-read.table("dat.csv.kn_tp53_del5q_mono7",sep="\t",header=T,stringsAsFactors = F,comment.char = "")
 
-# gene/varaint dict file 
+# gene/varaint dict file
 all_gene<-read.table("dbNSFP4.0_gene.complete_id",sep="\t",header=F,stringsAsFactors = F,comment.char = "")
 variant_gene_id_dict<-read.table("germ_somatic_variant_gene_dict.10ab_reg.cr_all",sep="\t",header=F,stringsAsFactors = F,comment.char = "")
 
@@ -63,9 +63,9 @@ k_folds<-as.numeric(opt$input_kfolds)
 
 # parameter setting
 kk_x_list<-2:12
-delta_list<-c(0.01,seq(0,1,by=0.1),0.99)   
-marker_cutoff_metrics<-'2_2_3_1'                                                         
-# variant count/percentage cutoff         
+delta_list<-c(0.01,seq(0,1,by=0.1),0.99)
+marker_cutoff_metrics<-'2_2_3_1'
+# variant count/percentage cutoff
 vc<-10
 vpc<-0.9
 marker_cutoff_metrics<-'2_2_3_1'
@@ -73,17 +73,17 @@ marker_cutoff_metrics<-'2_2_3_1'
 # km_name: 'gene' for gene-based genomic matrix / 'variant' for variant-based genomic matrix
 km_name<-paste('germ_somatic_vcf_gene_',opc,sep="")
 
-################################################################################################################################################################################ 
-print("main workflow") 
+################################################################################################################################################################################
+print("main workflow")
 
-# pre-regulation of genomic matrix 
+# pre-regulation of genomic matrix
 genomic_matrix_reg<-distance_L1_GO_regulation_v(genomic_matrix, dim(genomic_matrix)[2]-1, -6)
 
-# supervised-clustering of genomic matrix 
+# supervised-clustering of genomic matrix
 genomic_matrix_cluster<-supervised_clustering(genomic_matrix, dim(genomic_matrix_reg)[2]-1, k_folds, marker_cutoff_metrics, km_name)
 
 # quality control of supervised clustering
 genomic_matrix_cluster_qc<-score_qc_all(outdir,km_name,marker_cutoff_metrics, kk_x_list, delta_list,k_folds)
 
 # save the data
-save.image(file=paste(outdir,"/",'germ_somatic_vcf_gene_',opc,'.RData' ,sep=""))        
+save.image(file=paste(outdir,"/",'germ_somatic_vcf_gene_',opc,'.RData' ,sep=""))
