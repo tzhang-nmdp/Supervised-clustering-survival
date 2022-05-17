@@ -358,19 +358,7 @@ sil_ex <- function()
   silhouette_score(X, y)
     }     
 
-################################################################################################################################################################################ 
-# 2.1 save heatmap  
-         
-save_pheatmap_pdf <- function(x, filename, width=20, height=8) 
-   {
-   stopifnot(!missing(x))
-   stopifnot(!missing(filename))
-   pdf(filename, width=width, height=height)
-   grid::grid.newpage()
-   grid::grid.draw(x$gtable)
-   dev.off()
-   }  
-         
+ 
 ################################################################################################################################################################################ 
          
 concordance_index<-function(event_times, predicted_scores){
@@ -441,3 +429,17 @@ if (ties){
 }
 return (c(num_correct, num_tied, num_pairs))
 }
+         
+################################################################################################################################################################################ 
+# 2.1 save heatmap  
+         
+save_pheatmap_pdf <- function(x, filename, width=20, height=8) 
+   {
+   stopifnot(!missing(x))
+   stopifnot(!missing(filename))
+   pdf(filename, width=width, height=height)
+   grid::grid.newpage()
+   grid::grid.draw(x$gtable)
+   dev.off()
+   }  
+                 
