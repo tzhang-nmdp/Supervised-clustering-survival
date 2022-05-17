@@ -1,4 +1,5 @@
-# The clustering function for cluster fitting and scoring of in-bag/inb and out-of-bag/oob samples 
+################################################################################################################################################################################           
+# 2.3 clustering function for cluster fitting and scoring of in-bag/inb and out-of-bag/oob samples 
                              
 clustering_cv_fit<-function(matrix_random_split, marker_index, marker_cutoff_metrics, kk_x, delta, oob, num_inb, num_oob,km_name)
     {  
@@ -44,6 +45,12 @@ clustering_cv_fit<-function(matrix_random_split, marker_index, marker_cutoff_met
     set.seed(1)
     cluster_s3_inb_km <-kmeans(matrix_weight_random_split_inb[,1:(marker_index-1)], kk_x, iter.max = 20, nstart = 5)
     cluster_s3_inb_mc <- Mclust(matrix_weight_random_split_inb[,1:(marker_index-1)], G=kk_x,modelNames=BIC_model)
+    qq<-1
+    while (class(cluster_s3_inb_mc)=='NULL')
+        {
+        cluster_s3_inb_mc <- Mclust(matrix_weight_random_split_inb[,1:(marker_index-1)], G=kk_x-qq)
+        qq<-qq+1
+        }
     cluster_s3_inb_km_id <-cluster_s3_inb_km$cluster
     cluster_s3_inb_mc_id <-cluster_s3_inb_mc$classification    
     matrix_weight_random_split_inb$km_id<-cluster_s3_inb_km_id
