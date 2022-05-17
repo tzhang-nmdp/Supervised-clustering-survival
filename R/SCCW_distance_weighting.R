@@ -1,4 +1,5 @@
-# The function for calculate weight factors based on OR from statistical associations
+################################################################################################################################################################################
+# 1.1.2 function for calculate weight factors based on OR from statistical associations
 
 squared_log_Odd_ratio<-function(input_matrix)
     {
@@ -15,7 +16,7 @@ squared_log_Odd_ratio<-function(input_matrix)
     return(sqrt(abs_OR))  
     }
 
-# The function for calculate weight factors based on HR from statistical associations
+# 1.1.2 function for calculate weight factors based on HR from statistical associations
 
 squared_log_Hazard_ratio<-function(input_matrix)
     {
@@ -29,7 +30,7 @@ squared_log_Hazard_ratio<-function(input_matrix)
     }
 
 ################################################################################################################################################################################
-# The function for calculate weighted matrix from statistical associations
+# 1.2a function for calculate weighted matrix from statistical associations
 
 distance_weight_normalization<- function(input_matrix,marker_index)
     {
@@ -57,4 +58,4 @@ distance_weight_normalization<- function(input_matrix,marker_index)
                                               
     return(list(input_matrix,dis_wt_matrix))
     }
-        
+          
