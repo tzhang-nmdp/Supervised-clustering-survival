@@ -28,6 +28,11 @@ library(gridExtra)
 library(mclust)
 library(hash)
 
+# load the packages
+sources_path <- c("/SCCW_folder/")  
+file.sources = list.files(sources_path,pattern="*.R")
+sapply(file.sources,source,.GlobalEnv)
+
 ################################################################################################################################################################################
 # loading the data and parameter settings
 
