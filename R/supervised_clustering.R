@@ -1,4 +1,5 @@
-# The main function for supervised clustering with delta parameter and weight transformation 
+################################################################################################################################################################################
+# 2.4 main workflow function for supervised clustering with delta parameter and weight transformation 
                              
 supervised_clustering<-function(input_matrix, marker_index, k_folds, marker_cutoff_metrics, km_name)
     {
@@ -245,12 +246,10 @@ supervised_clustering<-function(input_matrix, marker_index, k_folds, marker_cuto
         }  # for kk_x loop 
         
         # store training model settings for validation                                                    
-        write.table(sig_table,paste(outdir,"/",km_name,"marker_cutoff",marker_cutoff_metrics,"_tmp.oob_sig_val_all.csv",sep=""), sep="\t", quote=F,col.names=T,row.names=F)                                     
-        save(kk_x_max,delta_max, file=paste(outdir,"/",km_name,"marker_cutoff",marker_cutoff_metrics,"_tmp.sig_parameter.RData",sep=""))  
-                                                            
+        write.table(sig_table,paste(outdir,"/",km_name,"marker_cutoff",marker_cutoff_metrics,"_tmp.oob_sig_val_all.csv",sep=""), sep="\t", quote=F,col.names=T,row.names=F)  
         print(paste("The hyperparameter with max kk_x at:", kk_x_max, "and max delta at:",delta_max, sep=" "))                                                   
         print(paste("The hyperparameter search ending:", Sys.time(),sep=" "))    
         print("#########################################################################################################################")        
         return(all_models)
     }     
-          
+           
