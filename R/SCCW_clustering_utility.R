@@ -1,4 +1,5 @@
-# The function for Kmeans centroid computation
+################################################################################################################################################################################  
+# 1.9 function for Kmeans centroid computation
                                               
 cluster_centroid <- function(input_matrix, marker_index, label) 
     {
@@ -19,7 +20,7 @@ cluster_centroid <- function(input_matrix, marker_index, label)
     return (centers)     
     }                                                                                                                                                                                                                                         
 ################################################################################################################################################################################
-# The function for Kmeans cluster id/centriod matching
+# 2.0.1 function for Kmeans cluster id/centriod matching
                                               
 cluster_label <- function(input_matrix, centers) 
     {
@@ -34,7 +35,7 @@ cluster_label <- function(input_matrix, centers)
     }
                                   
 ################################################################################################################################################################################
-# The function for Kmeans cluster id/centriod matching
+# 2.0.2  function for Kmeans cluster id/centriod matching
                                   
 cluster_relabel <- function(centers1, centers2) 
     {
