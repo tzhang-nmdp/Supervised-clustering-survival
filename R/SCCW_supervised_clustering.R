@@ -92,8 +92,7 @@ optimal_set<-genomic_matrix_cluster_qc[genomic_matrix_cluster_qc$log_rank_mc==0 
 optimal_set<-optimal_set[order(optimal_set$c_index_med, decreasing=T),]
 kk_x_best<-unlist(str_split(row.names(optimal_set)[1],'_'))[1]
 delta_best<-unlist(str_split(row.names(optimal_set)[1],'_'))[2]
-i<-(kk_x_best-2)*length(delta_list)+which(delta_list==delta_best)
-optimal_genomic_matrix<-genomic_matrix_cluster[[i]]
+optimal_genomic_matrix<-genomic_matrix_cluster[[kk_x_best-2]][[which(delta_list==delta_best)]]
 genomic_matrix_cluster_qc<-survival_summary_model(optimal_genomic_matrix, dim(optimal_genomic_matrix)[2]-1, km_name)
 
 # save the data
