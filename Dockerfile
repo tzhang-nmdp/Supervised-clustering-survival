@@ -8,13 +8,8 @@ RUN R CMD javareconf
 
 RUN install2.r ggplot2 ggforce gridExtra BiocManager optparse reghelper glmnet pheatmap Hmisc survminer hash
 
-COPY /R /Supervised-clustering-survival/
-COPY shiny-server.conf  /etc/shiny-server/shiny-server.conf
-COPY /mds-plots /srv/shiny-server/
-RUN chown -R shiny:shiny /srv/shiny-server/
+COPY /R /Supervised-clustering-survival/R/
 
 EXPOSE 80
-
-COPY shiny-server.sh /usr/bin/shiny-server.sh
 
 CMD ["/usr/bin/shiny-server.sh"]
