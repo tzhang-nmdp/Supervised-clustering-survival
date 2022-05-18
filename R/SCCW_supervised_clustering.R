@@ -29,11 +29,14 @@ library(mclust)
 library(hash)
 library(randomForestSRC)
 library(survXgboost)
+library(purrr)
 
 # load the packages
-sources_path <- c("/Supervised-clustering-survival/R")
+sources_path <- c("/Supervised-clustering-survival/R/")
 file.sources = list.files(sources_path,pattern="*.R")
-sapply(file.sources,source,.GlobalEnv)
+file.sources =file.sources[which(file.sources!='SCCW_supervised_clustering.R')]
+#sapply(file.sources,source,.GlobalEnv)
+map(paste0(sources_path, file.sources), source) 
 
 ################################################################################################################################################################################
 # loading the data and parameter settings
