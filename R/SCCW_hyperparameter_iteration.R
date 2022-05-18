@@ -1,5 +1,5 @@
 ################################################################################################################################################################################
-# 2.4 main workflow function for supervised clustering with delta parameter and weight transformation 
+#The main workflow function for supervised clustering with delta parameter and weight transformation 
                              
 supervised_clustering<-function(input_matrix, marker_index, k_folds, marker_cutoff_metrics, km_name)
     {
