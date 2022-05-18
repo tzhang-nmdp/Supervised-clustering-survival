@@ -86,14 +86,17 @@ genomic_matrix_cluster<-supervised_clustering(genomic_matrix, dim(genomic_matrix
 # quality control of supervised clustering
 genomic_matrix_cluster_qc<-score_qc_all(outdir,km_name,marker_cutoff_metrics, kk_x_list, delta_list,k_folds)
 
-# survival model summary
-genomic_matrix_cluster_qc$c_index_med=max(genomic_matrix_cluster_qc$c_index_med) & 
+# optimal setting grid_search
 optimal_set<-genomic_matrix_cluster_qc[genomic_matrix_cluster_qc$log_rank_mc==0 & genomic_matrix_cluster_qc$siho_score_min>0,]
 optimal_set<-optimal_set[order(optimal_set$c_index_med, decreasing=T),]
 kk_x_best<-unlist(str_split(row.names(optimal_set)[1],'_'))[1]
 delta_best<-unlist(str_split(row.names(optimal_set)[1],'_'))[2]
+
 optimal_genomic_matrix<-genomic_matrix_cluster[[kk_x_best-2]][[which(delta_list==delta_best)]]
-genomic_matrix_cluster_qc<-survival_summary_model(optimal_genomic_matrix, dim(optimal_genomic_matrix)[2]-1, km_name)
+load(paste(outdir,"/",km_name,"_delta_",delta_best,"_K_",kk_x_best,"_oob_",oob,"marker_cutoff",marker_cutoff_metrics,"_val_model.RData",sep="")) 
+
+# survival model summary
+survival_summary_optimal_clustering<-survival_summary_model(optimal_genomic_matrix, dim(optimal_genomic_matrix)[2]-1, km_name)
 
 # save the data
 save.image(file=paste(outdir,"/",'germ_somatic_vcf_gene_',opc,'.RData' ,sep=""))
