@@ -10,8 +10,8 @@ supervised_clustering<-function(input_matrix, marker_index, k_folds, marker_cuto
     setClass("supervised_kmeans_model", slots = c(kmm_name="character", km_delta="list", km_mc_inb_score="list", km_mc_oob_score="list", km_inb_center="list", km_cluster_inb_oob_rel="list",  mc_cluster_inb_oob_rel="list", km_inb_cluster="list", mc_inb_cluster="list", km_oob_cluster="list", mc_oob_cluster="list"))   
     
     # hyperparameters: cluster number k / weight factor delta
-    kk_x_list<-2:12
-    delta_list<-c( 0.01,seq(0,1,by=0.1),0.99)
+    kk_x_list<-3:9
+    delta_list<-c( 0.01,seq(0,1,by=0.1))
     num_inb<-10
     num_oob<-5
     cv_cutoff<-ceiling(k_folds/2)+1 
