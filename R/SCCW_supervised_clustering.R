@@ -31,7 +31,7 @@ library(randomForestSRC)
 library(survXgboost)
 
 # load the packages
-sources_path <- c("C:/Users/tzhang/Supervised-clustering-survival")
+sources_path <- c("/Supervised-clustering-survival")
 file.sources = list.files(sources_path,pattern="*.R")
 sapply(file.sources,source,.GlobalEnv)
 
