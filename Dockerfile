@@ -1,5 +1,5 @@
-#FROM dockerhub.nmdp.org:8443/nmdp-shiny-base:3.6.1
-FROM r-base:3.6.1 
+FROM dockerhub.nmdp.org:8443/nmdp-shiny-base:3.6.1
+#FROM r-base:3.6.1 
 
 MAINTAINER Tao Zhang “tzhang@nmdp.org"
 
@@ -17,4 +17,5 @@ COPY /R /Supervised-clustering-survival/R
 COPY /Example /Supervised-clustering-survival/Example
 
 EXPOSE 80
-CMD ["/Supervised-clustering-survival/Example/test.sh"]
+CMD ["/bin/sh"]
+#CMD ["/Supervised-clustering-survival/Example/test.sh"]
