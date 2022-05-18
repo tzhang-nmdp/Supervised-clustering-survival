@@ -13,4 +13,4 @@ COPY /R /Supervised-clustering-survival/R/
 
 EXPOSE 80
 
-CMD ["/usr/bin/shiny-server.sh"]
+CMD ["/usr/local/bin/Rscript /Supervised-clustering-survival/R/SCCW_supervised_clustering.R"]
