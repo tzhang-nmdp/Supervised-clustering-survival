@@ -64,13 +64,12 @@ opc<-as.character(opt$output_file)
 k_folds<-as.numeric(opt$input_kfolds)
 
 # parameter setting
-kk_x_list<-2:12
-delta_list<-c(0.01,seq(0,1,by=0.1),0.99)
+kk_x_list<-3:9
+delta_list<-c(0.01,seq(0,1,by=0.1))
 marker_cutoff_metrics<-'2_2_3_1'
 # variant count/percentage cutoff
 vc<-10
 vpc<-0.9
-marker_cutoff_metrics<-'2_2_3_1'
 
 # km_name: 'gene' for gene-based genomic matrix / 'variant' for variant-based genomic matrix
 km_name<-paste('germ_somatic_vcf_gene_',opc,sep="")
@@ -88,7 +87,14 @@ genomic_matrix_cluster<-supervised_clustering(genomic_matrix, dim(genomic_matrix
 genomic_matrix_cluster_qc<-score_qc_all(outdir,km_name,marker_cutoff_metrics, kk_x_list, delta_list,k_folds)
 
 # survival model summary
-genomic_matrix_cluster_qc<-score_qc_all(outdir,km_name,marker_cutoff_metrics, kk_x_list, delta_list,k_folds)
+genomic_matrix_cluster_qc$c_index_med=max(genomic_matrix_cluster_qc$c_index_med) & 
+optimal_set<-genomic_matrix_cluster_qc[genomic_matrix_cluster_qc$log_rank_mc==0 & genomic_matrix_cluster_qc$siho_score_min>0,]
+optimal_set<-optimal_set[order(optimal_set$c_index_med, decreasing=T),]
+kk_x_best<-unlist(str_split(row.names(optimal_set)[1],'_'))[1]
+delta_best<-unlist(str_split(row.names(optimal_set)[1],'_'))[2]
+i<-(kk_x_best-2)*length(delta_list)+which(delta_list==delta_best)
+optimal_genomic_matrix<-genomic_matrix_cluster[[i]]
+genomic_matrix_cluster_qc<-survival_summary_model(optimal_genomic_matrix, dim(optimal_genomic_matrix)[2]-1, km_name)
 
 # save the data
 save.image(file=paste(outdir,"/",'germ_somatic_vcf_gene_',opc,'.RData' ,sep=""))
