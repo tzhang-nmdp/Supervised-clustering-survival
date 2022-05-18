@@ -27,6 +27,8 @@ library(doParallel)
 library(gridExtra)
 library(mclust)
 library(hash)
+library(randomForestSRC)
+library(survXgboost)
 
 # load the packages
 sources_path <- c("C:/Users/tzhang/Supervised-clustering-survival")
@@ -83,6 +85,9 @@ genomic_matrix_reg<-distance_L1_GO_regulation_v(genomic_matrix, dim(genomic_matr
 genomic_matrix_cluster<-supervised_clustering(genomic_matrix, dim(genomic_matrix_reg)[2]-1, k_folds, marker_cutoff_metrics, km_name)
 
 # quality control of supervised clustering
+genomic_matrix_cluster_qc<-score_qc_all(outdir,km_name,marker_cutoff_metrics, kk_x_list, delta_list,k_folds)
+
+# survival model summary
 genomic_matrix_cluster_qc<-score_qc_all(outdir,km_name,marker_cutoff_metrics, kk_x_list, delta_list,k_folds)
 
 # save the data
