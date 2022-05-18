@@ -1,5 +1,5 @@
 ################################################################################################################################################################################ 
-# 1.6 function for randomally split 5 folds matrix (asign one as out-of-bag validation)
+# The function for randomally split 5 folds matrix (asign one as out-of-bag validation)
                                                                                       
 random_split <- function (input_matrix,marker_index, k_folds)
     {
