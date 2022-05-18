@@ -1,5 +1,5 @@
 ###############################################################################################################################################################################
-# 1.3 function for calculate weight factors from gene ontology itemized overpresentation
+# The function for calculate weight factors from gene ontology itemized overpresentation
                                               
 hsGO2 <- godata('org.Hs.eg.db', keytype = "SYMBOL", ont="MF", computeIC=FALSE)  
 gene_go_fraction<- function(cohort_go)
@@ -15,7 +15,7 @@ gene_go_fraction<- function(cohort_go)
         }
                                        
 ################################################################################################################################################################################    
-# 1.4.1 function for calculate weighted matrix from statistical associations of variant based matrix
+# The function for calculate weighted matrix from statistical associations of variant based matrix
                                        
 go_weight_normalization_v<- function(input_matrix,marker_index)
     {
@@ -105,7 +105,7 @@ go_weight_normalization_v<- function(input_matrix,marker_index)
     }
                                               
 ################################################################################################################################################################################            
-# 1.4.2 function for calculate weighted matrix from statistical associations of gene based matrix
+# The function for calculate weighted matrix from statistical associations of gene based matrix
                                               
 go_weight_normalization_g<- function(input_matrix,marker_index)
     {
