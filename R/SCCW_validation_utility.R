@@ -1,5 +1,5 @@
 ################################################################################################################################################################################ 
-# 2.5 main workflow function for validation of supervised clustering with delta parameter and weight transformation                                                             
+# The main workflow function for validation of supervised clustering with delta parameter and weight transformation                                                             
 supervised_clustering_val_all<- function(input_matrix, marker_index, marker_cutoff_metrics, km_name,kk_x_list,delta_list,k_folds) 
     {
     flush.console()    
@@ -100,7 +100,7 @@ write.table(km_mc_cluster_id_score_matrix[[1]],paste(outdir,"/",km_name,"_delta_
      }                       
             
 ################################################################################################################################################################################ 
-# 2.5 main workflow function for validation of supervised clustering with delta parameter and weight transformation                                                             
+# The main workflow function for validation of supervised clustering with delta parameter and weight transformation                                                             
 supervised_clustering_val<- function(input_matrix, marker_index, km_mc_model, stat_go_weight_vector, marker_cutoff_metrics, km_name, kk_x_max, delta_max) 
     {
     flush.console()    
