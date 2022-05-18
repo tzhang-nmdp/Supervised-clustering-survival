@@ -1,5 +1,5 @@
 ################################################################################################################################################################################
-# 1.5 function for calculate weighted matrix by weight factor delta 
+# The function for calculate weighted matrix by weight factor delta 
                                               
 matrix_weight_final <- function (matrix_weight_stats, matrix_weight_go, delta, marker_index)
     {
