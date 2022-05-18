@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y openjdk-8-jdk libssl-dev && apt-get aut
 RUN R CMD javareconf
 
 RUN install2.r ggplot2 ggforce gridExtra BiocManager optparse reghelper glmnet pheatmap Hmisc survminer hash
+RUN R -e 'BiocManager::install(c('bios2mds','GOSemSim','org.Hs.eg.db','biomaRt')'
 
 COPY /R /Supervised-clustering-survival/R/
 
