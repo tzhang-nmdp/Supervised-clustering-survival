@@ -231,7 +231,7 @@ supervised_clustering<-function(input_matrix, marker_index, k_folds, marker_cuto
             
             # store significant score table between oobs                                                              
             write.table(sig_table_kk,paste(outdir,"/",km_name,"kk_x",kk_x,"marker_cutoff",marker_cutoff_metrics,"_tmp.oob_sig_val_all.csv",sep=""), sep="\t", quote=F,col.names=T,row.names=F)       
-            all_models[[kk_x-1]]<-km_obj 
+            all_models[[kk_x-2]]<-km_obj 
                  
             ## M step ##
             # mark the hyperparameters: cluster number k / weight factor delta with the best score                                                
