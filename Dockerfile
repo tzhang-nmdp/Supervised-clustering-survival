@@ -1,4 +1,5 @@
-FROM dockerhub.nmdp.org:8443/nmdp-shiny-base:3.6.1
+#FROM dockerhub.nmdp.org:8443/nmdp-shiny-base:3.6.1
+FROM r-base:3.6.1 
 
 MAINTAINER Tao Zhang “tzhang@nmdp.org"
 
