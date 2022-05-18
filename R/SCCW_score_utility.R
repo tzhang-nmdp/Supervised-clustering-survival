@@ -1,5 +1,5 @@
 ################################################################################################################################################################################ # 1.1 # function for supervised score_err function ( proportion / count) of multiple phenotypes
-                                              
+# The function for survival metrics of supervised clustering                                         
 score_err_all <- function (cluster_matrix, marker_cutoff_metrics, kk_x, num_cutoff)
     {
     marker_cutoff_metrics_tmp<-unlist(str_split(marker_cutoff_metrics,"_"))
@@ -215,7 +215,7 @@ score_qc_all <- function (outdir,km_name,marker_cutoff_metrics, kk_x_list, delta
     }                   
                
 ################################################################################################################################################################################
-# 1.2  clustering optimal metrics function
+# The sihoutte score function of clustering optimal metrics 
                                               
 # get.function for mode
 getmode <- function(v) 
@@ -245,7 +245,7 @@ K_delta_calculator<-function (matrix_weight_random_split_inb, marker_index, oob,
         }
 
 ################################################################################################################################################################################ # 2.1 function for Kmeans silhouette score 
-# 1.3  clustering sehoutte score function                                 
+# The clustering sihoutte score function                                 
 # Rep a value N times
 rep <- function(val, n) {
   if(n < 1)
@@ -360,7 +360,7 @@ sil_ex <- function()
 
  
 ################################################################################################################################################################################ 
-         
+ # survival c-index function        
 concordance_index<-function(event_times, predicted_scores){
   event_times = abs(event_times)
   event_observed = (event_times > 0)
@@ -431,7 +431,7 @@ return (c(num_correct, num_tied, num_pairs))
 }
          
 ################################################################################################################################################################################ 
-# 2.1 save heatmap  
+# the function to save heatmap  
          
 save_pheatmap_pdf <- function(x, filename, width=20, height=8) 
    {
