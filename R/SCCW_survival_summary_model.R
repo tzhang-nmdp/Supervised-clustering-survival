@@ -1,5 +1,6 @@
 # survival summary model with permutations
 survival_summary_model<-function(input_matrix, marker_index, km_name)
+    {
     cindex_matrix<-data.frame(matrix(ncol = 3, nrow =5))
     colnames(cindex_matrix)<-c('RSF','coxph','xgboost')
     rownames(cindex_matrix)<-c('cindex_min','cindex_1qt','cindex_median','cindex_3qt','cindex_max')
@@ -40,15 +41,15 @@ survival_summary_model<-function(input_matrix, marker_index, km_name)
     imp_dict_494_all$feature_name<-as.character(imp_dict_494_all$feature_name)
     for (i in 1:dim(imp_dict_494_all)[1])
         {
-    if  (grepl('_id',imp_dict_494_all[i,2]))
-        {
-        imp_dict_494_all[i,3]<-'clustering'
-    }
-        else if  ( imp_dict_494_all[i,2] %in% c('ipssr','HMA', 'CHEMO','mdstype'))
-        {
-        imp_dict_494_all[i,3]<-'clinical'
-    }    
-    }
+        if  (grepl('_id',imp_dict_494_all[i,2]))
+            {
+            imp_dict_494_all[i,3]<-'clustering'
+            }
+            else if  ( imp_dict_494_all[i,2] %in% c('ipssr','HMA', 'CHEMO','mdstype'))
+            {
+            imp_dict_494_all[i,3]<-'clinical'
+            }    
+        }
     imp_dict_494_all$feature_importance_rev<-sapply(imp_dict_494_all$feature_importance, function(x) { x*(-1)})
     #imp_dict_494_all[imp_dict_494_all$feature_name=='km_id_com', 'feature_name']<-'cluster_common_variant'
     #imp_dict_494_all[imp_dict_494_all$feature_name=='km_id', 'feature_name']<-'cluster_rare_variant'
@@ -82,24 +83,24 @@ survival_summary_model<-function(input_matrix, marker_index, km_name)
     for (i in 1:100)
         {    cat(i)
         flush.console()
-    set.seed(i)
-    val_ind <- sample.int(nrow(tempSubset_fs_tmp), 0.1 * nrow(tempSubset_fs_tmp))
-    x_train <- as.matrix(tempSubset_fs_tmp[-val_ind, !names(tempSubset_fs_tmp) %in% c("intxsurv", "dead")])
-    x_label <- label[-val_ind]
-    x_val <- xgb.DMatrix(as.matrix(tempSubset_fs_tmp[val_ind, !names(tempSubset_fs_tmp) %in% c("intxsurv", "dead")]),
-                        label = label[val_ind])
+        set.seed(i)
+        val_ind <- sample.int(nrow(tempSubset_fs_tmp), 0.1 * nrow(tempSubset_fs_tmp))
+        x_train <- as.matrix(tempSubset_fs_tmp[-val_ind, !names(tempSubset_fs_tmp) %in% c("intxsurv", "dead")])
+        x_label <- label[-val_ind]
+        x_val <- xgb.DMatrix(as.matrix(tempSubset_fs_tmp[val_ind, !names(tempSubset_fs_tmp) %in% c("intxsurv", "dead")]),
+                            label = label[val_ind])
 
-    surv_xgboost_model <- xgb.train.surv(
-    params = list(
-        objective = "survival:cox",
-        eval_metric = "cox-nloglik",
-        eta = 0.05 # larger eta leads to algorithm not converging, resulting in NaN predictions
-    ), data = x_train, label = x_label,
-    watchlist = list(val2 = x_val),
-    nrounds = 1000, early_stopping_rounds = 30
-    )
-    risk_scores <- predict(object = surv_xgboost_model, newdata = as.matrix(tempSubset_fs_tmp[, !names(tempSubset_fs_tmp) %in% c("intxsurv", "dead")]), type = "risk")
-    cidx_494_all<-c(cidx_494_all,concordance_index(tempSubset_fs_tmp$intxsurv,1-risk_scores))
+        surv_xgboost_model <- xgb.train.surv(
+        params = list(
+            objective = "survival:cox",
+            eval_metric = "cox-nloglik",
+            eta = 0.05 # larger eta leads to algorithm not converging, resulting in NaN predictions
+        ), data = x_train, label = x_label,
+        watchlist = list(val2 = x_val),
+        nrounds = 1000, early_stopping_rounds = 30
+        )
+        risk_scores <- predict(object = surv_xgboost_model, newdata = as.matrix(tempSubset_fs_tmp[, !names(tempSubset_fs_tmp) %in% c("intxsurv", "dead")]), type = "risk")
+        cidx_494_all<-c(cidx_494_all,concordance_index(tempSubset_fs_tmp$intxsurv,1-risk_scores))
         }
 
     cindex_matrix[,3]<-quantile(cidx_494_all, probs=c(0.05, 0.95))
