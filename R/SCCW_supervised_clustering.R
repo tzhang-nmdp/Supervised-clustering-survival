@@ -73,7 +73,12 @@ km_name<-paste('germ_somatic_vcf_gene_',opc,sep="")
 print("main workflow")
 
 # pre-regulation of genomic matrix
-genomic_matrix_reg<-distance_L1_GO_regulation_v(genomic_matrix, dim(genomic_matrix)[2]-1, -6)
+germ_somatic_vcf_0.000001_gene_clin_kn_tmp$intxsurv<-0                                          
+germ_somatic_vcf_0.000001_gene_clin_kn_tmp$dead<-0         
+germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,c('intxsurv','dead')]<-clin_data_kn[match(rownames(germ_somatic_vcf_0.000001_gene_clin_kn_tmp),clin_data_kn$formattedRID_LabCorpID),c('intxsurv','dead')]  
+germ_somatic_vcf_0.000001_gene_clin_kn_tmp<-germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,c(which(colSums(germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,1:(dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-2)])<=dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[1]*vpc & colSums(germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,1:(dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-2)])>=vc),dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-1,dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2])]
+#germ_somatic_vcf_0.000001_gene_clin_kn_tmp<-germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,c(1:2000,dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-1,dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2])]
+genomic_matrix_reg<-distance_L1_GO_regulation_v(germ_somatic_vcf_0.000001_gene_clin_kn_tmp, dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-1, -6)
 
 # supervised-clustering of genomic matrix
 genomic_matrix_cluster<-supervised_clustering(genomic_matrix, dim(genomic_matrix_reg)[2]-1, k_folds, marker_cutoff_metrics, km_name)
