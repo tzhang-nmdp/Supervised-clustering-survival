@@ -55,7 +55,7 @@ clin_data_kn<-read.table("dat.csv.kn_tp53_del5q_mono7",sep="\t",header=T,strings
 
 # gene/varaint dict file
 all_gene<-read.table("dbNSFP4.0_gene.complete_id",sep="\t",header=F,stringsAsFactors = F,comment.char = "")
-variant_gene_id_dict<-read.table("germ_somatic_variant_gene_dict.10ab_reg.cr_all",sep="\t",header=F,stringsAsFactors = F,comment.char = "")
+variant_gene_id_dict<-read.table("germ_somatic_variant_gene_dict.10ab_reg.cr_all.cr",sep="\t",header=F,stringsAsFactors = F,comment.char = "")
 
 # workflow control indicator
 opc<-as.character(opt$output_file)
