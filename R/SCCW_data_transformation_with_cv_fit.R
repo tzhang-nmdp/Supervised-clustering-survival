@@ -1,5 +1,5 @@
 ################################################################################################################################################################################           
-# 2.3 clustering function for cluster fitting and scoring of in-bag/inb and out-of-bag/oob samples 
+# The clustering function for cluster fitting and scoring of in-bag/inb and out-of-bag/oob samples 
                              
 clustering_cv_fit<-function(matrix_random_split, marker_index, marker_cutoff_metrics, kk_x, delta, oob, num_inb, num_oob,km_name)
     {  
