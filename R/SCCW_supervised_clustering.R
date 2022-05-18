@@ -42,7 +42,7 @@ option_list<-list(make_option(c("-i", "--input_file"),type="character",help="inp
 opt_parser<-OptionParser(option_list=option_list)
 opt=parse_args(opt_parser)
 
-# load genomic data
+# load genomic data and extra information
 input<-as.character(opt$input_file)
 load(input)
 
@@ -50,14 +50,6 @@ load(input)
 outdir<-as.character(opt$output_dir)
 system(paste('mkdir ', outdir,sep=''))
 system(paste('sudo chmod 777 -R ', outdir,sep=''))
-
-# clinical information data
-clin_data<-read.table("/Supervised-clustering-survival/Example/dat.csv.cr",sep="\t",header=T,stringsAsFactors = F,comment.char = "")
-clin_data_kn<-read.table("/Supervised-clustering-survival/Example/dat.csv.kn_tp53_del5q_mono7",sep="\t",header=T,stringsAsFactors = F,comment.char = "")
-
-# gene/varaint dict file
-all_gene<-read.table("/Supervised-clustering-survival/Example/dbNSFP4.0_gene.complete_id",sep="\t",header=F,stringsAsFactors = F,comment.char = "")
-variant_gene_id_dict<-read.table("/Supervised-clustering-survival/Example/germ_somatic_variant_gene_dict.10ab_reg.cr_all.cr",sep="\t",header=F,stringsAsFactors = F,comment.char = "")
 
 # workflow control indicator
 opc<-as.character(opt$output_file)
