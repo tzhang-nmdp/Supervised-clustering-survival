@@ -92,6 +92,7 @@ optimal_set<-optimal_set[order(optimal_set$c_index_med, decreasing=T),]
 kk_x_best<-unlist(str_split(row.names(optimal_set)[1],'_'))[1]
 delta_best<-unlist(str_split(row.names(optimal_set)[1],'_'))[2]
 
+# extract the clustsering information for all samples with optimal setting grid_search
 optimal_genomic_matrix<-genomic_matrix_cluster[[kk_x_best-2]][[which(delta_list==delta_best)]]
 load(paste(outdir,"/",km_name,"_delta_",delta_best,"_K_",kk_x_best,"_oob_",oob,"marker_cutoff",marker_cutoff_metrics,"_val_model.RData",sep="")) 
 km_mc_cluster_id_score_matrix <-validation_predict(km_mc_model, input_matrix_r, stat_go_weight_vector, marker_index, marker_cutoff_metrics, kk_x, num_oob)   
