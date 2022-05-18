@@ -94,9 +94,19 @@ delta_best<-unlist(str_split(row.names(optimal_set)[1],'_'))[2]
 
 optimal_genomic_matrix<-genomic_matrix_cluster[[kk_x_best-2]][[which(delta_list==delta_best)]]
 load(paste(outdir,"/",km_name,"_delta_",delta_best,"_K_",kk_x_best,"_oob_",oob,"marker_cutoff",marker_cutoff_metrics,"_val_model.RData",sep="")) 
+km_mc_cluster_id_score_matrix <-validation_predict(km_mc_model, input_matrix_r, stat_go_weight_vector, marker_index, marker_cutoff_metrics, kk_x, num_oob)   
+km_cluster_id<-km_mc_cluster_id_score_matrix[[2]]
+mc_cluster_id<-km_mc_cluster_id_score_matrix[[3]]
+input_matrix_r$km_id<-km_cluster_id[match(rownames(input_matrix_r),names(km_cluster_id))]
+input_matrix_r$mc_id<-mc_cluster_id[match(rownames(input_matrix_r),names(mc_cluster_id))]
+clin_data_tmp_com<-clin_data[clin_data$formattedRID_LabCorpID %in% rownames(input_matrix_r),]
+clin_data_tmp_com$km_id<-input_matrix_r[match(clin_data_tmp_com$formattedRID_LabCorpID,rownames(input_matrix_r)),'km_id']
+clin_data_tmp1_com<-clin_data[clin_data$formattedRID_LabCorpID %in% names(cluster_inb_oob_rel),]
+clin_data_tmp1_com$km_id<-cluster_inb_oob_rel[match(clin_data_tmp1_com$formattedRID_LabCorpID,names(cluster_inb_oob_rel))]   
+clin_data_tmp_all_com<-rbind(clin_data_tmp_com,clin_data_tmp1_com)
 
 # survival model summary
-survival_summary_optimal_clustering<-survival_summary_model(optimal_genomic_matrix, dim(optimal_genomic_matrix)[2]-1, km_name)
+survival_summary_optimal_clustering<-survival_summary_model(clin_data_tmp_all_com, dim(optimal_genomic_matrix)[2]-1, km_name)
 
 # save the data
 save.image(file=paste(outdir,"/",'germ_somatic_vcf_gene_',opc,'.RData' ,sep=""))
