@@ -20,7 +20,7 @@ install_github("tzhang-nmdp/Supervised-clustering-survival")
 ## Usage:
 
 ``` r
-Rscript supervised_clustering_gene_variant-docu-L1-inb-Copy2.R \
+Rscript /Supervised-clustering-survival/R/SCCW_supervised_clustering.R \
 -i  ${genomic_data}.RData \ # input matrix for genomic data
 -o v/g \ # running model option ( 'v' for variant level of common variant analysis, 'g' for gene level of rare variant analysis)
 -d ${outdir} \  # output directory
@@ -28,6 +28,14 @@ Rscript supervised_clustering_gene_variant-docu-L1-inb-Copy2.R \
 ```
 
 ## Example
+
+``` r
+Rscript /Supervised-clustering-survival/R/SCCW_supervised_clustering.R \
+-i  /Supervised-clustering-survival/Example/genomic_data_vcf.RData \ # input matrix for genomic data
+-o test_gene \ # running model option ( 'v' for variant level of common variant analysis, 'g' for gene level of rare variant analysis)
+-d /Supervised-clustering-survival/Example \  # output directory
+-k 5 # k_fold setting for cross-validation
+```
 
 ### input data
 ![INPUT](https://github.com/tzhang-nmdp/Supervised-clustering-survival/blob/main/Example/Input.PNG)
