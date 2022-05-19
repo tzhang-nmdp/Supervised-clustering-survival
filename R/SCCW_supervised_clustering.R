@@ -60,7 +60,7 @@ k_folds<-as.numeric(opt$input_kfolds)
 
 # parameter setting
 kk_x_list<-3:9
-delta_list<-c(0.01,seq(0,1,by=0.1))
+delta_list<-c(0.01,seq(0.1,0.9,by=0.1),0.99)
 marker_cutoff_metrics<-'2_2_3_1'
 # variant count/percentage cutoff
 vc<-10
@@ -77,11 +77,11 @@ germ_somatic_vcf_0.000001_gene_clin_kn_tmp$intxsurv<-0
 germ_somatic_vcf_0.000001_gene_clin_kn_tmp$dead<-0         
 germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,c('intxsurv','dead')]<-clin_data_kn[match(rownames(germ_somatic_vcf_0.000001_gene_clin_kn_tmp),clin_data_kn$formattedRID_LabCorpID),c('intxsurv','dead')]  
 germ_somatic_vcf_0.000001_gene_clin_kn_tmp<-germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,c(which(colSums(germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,1:(dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-2)])<=dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[1]*vpc & colSums(germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,1:(dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-2)])>=vc),dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-1,dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2])]
-#germ_somatic_vcf_0.000001_gene_clin_kn_tmp<-germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,c(1:2000,dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-1,dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2])]
+germ_somatic_vcf_0.000001_gene_clin_kn_tmp<-germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,c(1:2000,dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-1,dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2])]
 genomic_matrix_reg<-distance_L1_GO_regulation_v(germ_somatic_vcf_0.000001_gene_clin_kn_tmp, dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-1, -6)
 
 # supervised-clustering of genomic matrix
-genomic_matrix_cluster<-supervised_clustering(genomic_matrix, dim(genomic_matrix_reg)[2]-1, k_folds, marker_cutoff_metrics, km_name)
+genomic_matrix_cluster<-supervised_clustering(genomic_matrix_reg, dim(genomic_matrix_reg)[2]-1, k_folds, marker_cutoff_metrics, km_name)
 
 # quality control of supervised clustering
 genomic_matrix_cluster_qc<-score_qc_all(outdir,km_name,marker_cutoff_metrics, kk_x_list, delta_list,k_folds)
@@ -91,9 +91,10 @@ optimal_set<-genomic_matrix_cluster_qc[genomic_matrix_cluster_qc$log_rank_mc==0 
 optimal_set<-optimal_set[order(optimal_set$c_index_med, decreasing=T),]
 kk_x_best<-unlist(str_split(row.names(optimal_set)[1],'_'))[1]
 delta_best<-unlist(str_split(row.names(optimal_set)[1],'_'))[2]
+print(paste(km_name,"has_delta_best:",delta_best,"and_K_best:",kk_x_best))
 
 # extract the clustsering information for all samples with optimal setting grid_search
-optimal_genomic_matrix<-genomic_matrix_cluster[[kk_x_best-2]][[which(delta_list==delta_best)]]
+optimal_genomic_matrix<-genomic_matrix_cluster[[as.numeric(kk_x_best-2)]][[which(delta_list==delta_best)]]
 load(paste(outdir,"/",km_name,"_delta_",delta_best,"_K_",kk_x_best,"_oob_",oob,"marker_cutoff",marker_cutoff_metrics,"_val_model.RData",sep="")) 
 km_mc_cluster_id_score_matrix <-validation_predict(km_mc_model, input_matrix_r, stat_go_weight_vector, marker_index, marker_cutoff_metrics, kk_x, num_oob)   
 km_cluster_id<-km_mc_cluster_id_score_matrix[[2]]
