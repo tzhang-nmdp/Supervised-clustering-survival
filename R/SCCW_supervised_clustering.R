@@ -30,6 +30,11 @@ library(hash)
 library(randomForestSRC)
 library(survXgboost)
 library(purrr)
+#library(memisc)
+library(mlr)
+pacman::p_load_gh("IyarLin/survXgboost")
+pacman::p_load("survival")
+pacman::p_load("xgboost")
 
 # load the packages
 sources_path <- c("/Supervised-clustering-survival/R/")
@@ -52,33 +57,46 @@ load(input)
 # outdir setting
 outdir<-as.character(opt$output_dir)
 system(paste('mkdir ', outdir,sep=''))
-system(paste('sudo chmod 777 -R ', outdir,sep=''))
+system(paste('chmod 777 -R ', outdir,sep=''))
 
 # workflow control indicator
 opc<-as.character(opt$output_file)
 k_folds<-as.numeric(opt$input_kfolds)
 
 # parameter setting
-kk_x_list<-3:9
-delta_list<-c(0.01,seq(0.1,0.9,by=0.1),0.99)
+kk_x_list<-3:5
+delta_list<-c(0.01,0.99)
 marker_cutoff_metrics<-'2_2_3_1'
+num_inb<-10
+num_oob<-5
 # variant count/percentage cutoff
 vc<-10
 vpc<-0.9
 
 # km_name: 'gene' for gene-based genomic matrix / 'variant' for variant-based genomic matrix
-km_name<-paste('germ_somatic_vcf_gene_',opc,sep="")
+km_name<-paste('germ_somatic_',opc,sep="")
 
 ################################################################################################################################################################################
 print("main workflow")
 
 # pre-regulation of genomic matrix
-germ_somatic_vcf_0.000001_gene_clin_kn_tmp$intxsurv<-0                                          
-germ_somatic_vcf_0.000001_gene_clin_kn_tmp$dead<-0         
-germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,c('intxsurv','dead')]<-clin_data_kn[match(rownames(germ_somatic_vcf_0.000001_gene_clin_kn_tmp),clin_data_kn$formattedRID_LabCorpID),c('intxsurv','dead')]  
-germ_somatic_vcf_0.000001_gene_clin_kn_tmp<-germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,c(which(colSums(germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,1:(dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-2)])<=dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[1]*vpc & colSums(germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,1:(dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-2)])>=vc),dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-1,dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2])]
-germ_somatic_vcf_0.000001_gene_clin_kn_tmp<-germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,c(1:2000,dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-1,dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2])]
-genomic_matrix_reg<-distance_L1_GO_regulation_v(germ_somatic_vcf_0.000001_gene_clin_kn_tmp, dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-1, -6)
+if (opc=="test_gene")
+    {
+    germ_somatic_vcf_0.000001_gene_clin_kn_tmp$intxsurv<-0                                          
+    germ_somatic_vcf_0.000001_gene_clin_kn_tmp$dead<-0         
+    germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,c('intxsurv','dead')]<-clin_data_kn[match(rownames(germ_somatic_vcf_0.000001_gene_clin_kn_tmp),clin_data_kn$formattedRID_LabCorpID),c('intxsurv','dead')] 
+    # remove low variation variables
+    germ_somatic_vcf_0.000001_gene_clin_kn_tmp<-germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,c(which(colSums(germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,1:(dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-2)])<=dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[1]*vpc & colSums(germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,1:(dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-2)])>=vc),dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-1,dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2])]
+    # subset for testing
+    germ_somatic_vcf_0.000001_gene_clin_kn_tmp<-germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,c(1:2000,dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-1,dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2])]
+    genomic_matrix_reg<-distance_L1_GO_regulation_v(germ_somatic_vcf_0.000001_gene_clin_kn_tmp, dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-1, -6)
+    } else if ((!(grepl("test",opc))) && (!(grepl("_L1",opc)))) {
+    genomic_matrix_reg<-distance_regulation(input_genomic_matrix, dim(input_genomic_matrix)[2]-1, -6) 
+    } else if ((!(grepl("test",opc))) && (grepl( "gene",opc))) {
+    genomic_matrix_reg<-distance_L1_GO_regulation_g(input_genomic_matrix, dim(input_genomic_matrix)[2]-1, -6)   
+    } else if ((!(grepl("test",opc))) && (grepl("variant",opc))) {
+    genomic_matrix_reg<-distance_L1_GO_regulation_v(input_genomic_matrix, dim(input_genomic_matrix)[2]-1, -6)    
+    }
 
 # supervised-clustering of genomic matrix
 genomic_matrix_cluster<-supervised_clustering(genomic_matrix_reg, dim(genomic_matrix_reg)[2]-1, k_folds, marker_cutoff_metrics, km_name)
@@ -87,28 +105,14 @@ genomic_matrix_cluster<-supervised_clustering(genomic_matrix_reg, dim(genomic_ma
 genomic_matrix_cluster_qc<-score_qc_all(outdir,km_name,marker_cutoff_metrics, kk_x_list, delta_list,k_folds)
 
 # optimal setting grid_search
-optimal_set<-genomic_matrix_cluster_qc[genomic_matrix_cluster_qc$log_rank_mc==0 & genomic_matrix_cluster_qc$siho_score_min>0,]
-optimal_set<-optimal_set[order(optimal_set$c_index_med, decreasing=T),]
-kk_x_best<-unlist(str_split(row.names(optimal_set)[1],'_'))[1]
-delta_best<-unlist(str_split(row.names(optimal_set)[1],'_'))[2]
-print(paste(km_name,"has_delta_best:",delta_best,"and_K_best:",kk_x_best))
-
-# extract the clustsering information for all samples with optimal setting grid_search
-optimal_genomic_matrix<-genomic_matrix_cluster[[as.numeric(kk_x_best-2)]][[which(delta_list==delta_best)]]
-load(paste(outdir,"/",km_name,"_delta_",delta_best,"_K_",kk_x_best,"_oob_",oob,"marker_cutoff",marker_cutoff_metrics,"_val_model.RData",sep="")) 
-km_mc_cluster_id_score_matrix <-validation_predict(km_mc_model, input_matrix_r, stat_go_weight_vector, marker_index, marker_cutoff_metrics, kk_x, num_oob)   
-km_cluster_id<-km_mc_cluster_id_score_matrix[[2]]
-mc_cluster_id<-km_mc_cluster_id_score_matrix[[3]]
-input_matrix_r$km_id<-km_cluster_id[match(rownames(input_matrix_r),names(km_cluster_id))]
-input_matrix_r$mc_id<-mc_cluster_id[match(rownames(input_matrix_r),names(mc_cluster_id))]
-clin_data_tmp_com<-clin_data[clin_data$formattedRID_LabCorpID %in% rownames(input_matrix_r),]
-clin_data_tmp_com$km_id<-input_matrix_r[match(clin_data_tmp_com$formattedRID_LabCorpID,rownames(input_matrix_r)),'km_id']
-clin_data_tmp1_com<-clin_data[clin_data$formattedRID_LabCorpID %in% names(cluster_inb_oob_rel),]
-clin_data_tmp1_com$km_id<-cluster_inb_oob_rel[match(clin_data_tmp1_com$formattedRID_LabCorpID,names(cluster_inb_oob_rel))]   
-clin_data_tmp_all_com<-rbind(clin_data_tmp_com,clin_data_tmp1_com)
+optimal_cluster<-optimal_clustering_setting(genomic_matrix_cluster, genomic_matrix_cluster_qc, input_matrix_r, km_name, marker_index, marker_cutoff_metrics, num_oob)
+clin_data_tmp_all_com<-optimal_cluster[[1]]
+kk_x_best<-optimal_cluster[[2]]
+delta_best<-optimal_cluster[[3]]
 
 # survival model summary
-survival_summary_optimal_clustering<-survival_summary_model(clin_data_tmp_all_com, dim(optimal_genomic_matrix)[2]-1, km_name)
+survival_summary_optimal_clustering<-survival_summary_model(clin_data_tmp_all_com[,c('km_id','mdstype','ipssr','HCT.CI','intxsurv', 'dead')],kk_x_best,delta_best, km_name)
+write.table(survival_summary_optimal_clustering,paste(outdir,"/",km_name,"_kk_x_",kk_x_best,"_delta_",delta_best,"_km_survival_summary_model.csv",sep=""),sep="\t",col.names=T,row.names=T,quote=F)
 
 # save the data
-save.image(file=paste(outdir,"/",'germ_somatic_vcf_gene_',opc,'.RData' ,sep=""))
+save.image(file=paste(outdir,"/",km_name,".RData",sep=""))
