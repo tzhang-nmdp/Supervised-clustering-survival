@@ -27,7 +27,7 @@ clustering_cv_fit<-function(matrix_random_split, marker_index, marker_cutoff_met
     go_wt_matrix<-matrix_weight_go_tmp[[2]] 
     
     # 2.3.3 calculate clustering optimal metrics of kmeans and Mclust clustering for cluster number "k"  and weight factor "delta"
-    matrix_weight_random_split_inb<-matrix_weight_final(matrix_weight_stats_random_split_inb, matrix_weight_go_random_split_inb, delta)      
+    matrix_weight_random_split_inb<-matrix_weight_final(matrix_weight_stats_random_split_inb, matrix_weight_go_random_split_inb, delta,marker_index)      
     K_optimizer<-K_delta_calculator(matrix_weight_random_split_inb, marker_index, oob, kk_x, delta)
     silho_score<-K_optimizer[1]
     BIC_score_list<-K_optimizer[2][[1]]
