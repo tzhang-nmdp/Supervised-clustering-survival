@@ -64,8 +64,8 @@ opc<-as.character(opt$output_file)
 k_folds<-as.numeric(opt$input_kfolds)
 
 # parameter setting
-kk_x_list<-3:5
-delta_list<-c(0.01,0.99)
+kk_x_list<-3:9
+delta_list<-c(0.01,seq(0.1,0.9,by=0.1),0.99)
 marker_cutoff_metrics<-'2_2_3_1'
 num_inb<-10
 num_oob<-5
@@ -109,6 +109,7 @@ optimal_cluster<-optimal_clustering_setting(genomic_matrix_cluster, genomic_matr
 clin_data_tmp_all_com<-optimal_cluster[[1]]
 kk_x_best<-optimal_cluster[[2]]
 delta_best<-optimal_cluster[[3]]
+save(genomic_matrix_reg,genomic_matrix_cluster,genomic_matrix_cluster_qc,optimal_cluster,file=paste(outdir,"/",km_name,"_tmp.RData",sep=""))
 
 # survival model summary
 survival_summary_optimal_clustering<-survival_summary_model(clin_data_tmp_all_com[,c('km_id','mdstype','ipssr','HCT.CI','intxsurv', 'dead')],kk_x_best,delta_best, km_name)
