@@ -10,6 +10,7 @@ score_err_all <- function (cluster_matrix, marker_cutoff_metrics, kk_x, num_cuto
     # loop checking of the clustering from Kmeans and Mculst
     for (cls in c('km','mc'))
         {
+        
         id_idx<-which(colnames(cluster_matrix)==paste(cls,'id',sep="_"))
         cluster_id_tmp<-unique(cluster_matrix[,id_idx])
         cluster_marker_matrix<-data.frame('cluster'=cluster_id[order(cluster_id,decreasing = F)],'cluster_num'=NA,'cluster_marker'=NA,'mdstype'=NA,'ipssr'=NA,'hct_ci'=NA,'surv'=NA,'surv_cox'=NA,'sig'=NA)
@@ -22,7 +23,7 @@ score_err_all <- function (cluster_matrix, marker_cutoff_metrics, kk_x, num_cuto
             # loop checking for each cluster
             for ( cls_id in cluster_id_tmp[order(cluster_id_tmp,decreasing = F)])
                 {
-                
+                options(warn = -1)                  
                 # retrieve sample id and clin info for each cluster ( by 1 cluster vs other ) 
                 cluster_sample<-rownames(cluster_matrix)[cluster_matrix[,id_idx]==cls_id]
                 oth_sample<-rownames(cluster_matrix)[cluster_matrix[,id_idx]!=cls_id]
