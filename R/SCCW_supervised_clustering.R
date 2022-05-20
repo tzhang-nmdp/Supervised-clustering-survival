@@ -106,10 +106,10 @@ genomic_matrix_cluster_qc<-score_qc_all(outdir,km_name,marker_cutoff_metrics, kk
 
 # optimal setting grid_search
 optimal_cluster<-optimal_clustering_setting(genomic_matrix_cluster, genomic_matrix_cluster_qc, input_matrix_r, km_name, marker_index, marker_cutoff_metrics, num_oob)
+save(genomic_matrix_reg,genomic_matrix_cluster,genomic_matrix_cluster_qc,optimal_cluster,file=paste(outdir,"/",km_name,"_tmp.RData",sep=""))
 clin_data_tmp_all_com<-optimal_cluster[[1]]
 kk_x_best<-optimal_cluster[[2]]
 delta_best<-optimal_cluster[[3]]
-save(genomic_matrix_reg,genomic_matrix_cluster,genomic_matrix_cluster_qc,optimal_cluster,file=paste(outdir,"/",km_name,"_tmp.RData",sep=""))
 
 # survival model summary
 survival_summary_optimal_clustering<-survival_summary_model(clin_data_tmp_all_com[,c('km_id','mdstype','ipssr','HCT.CI','intxsurv', 'dead')],kk_x_best,delta_best, km_name)
