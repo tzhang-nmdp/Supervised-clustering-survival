@@ -42,6 +42,8 @@ optimal_clustering_setting<-function(genomic_matrix_cluster, genomic_matrix_clus
  
     
     # coxph mutlivariate forest plot of Kmeans clustering
+    clin_data_tmp_all_com$km_id<-as.factor( clin_data_tmp_all_com$km_id)
+    clin_data_tmp_all_com$km_id<-relevel(clin_data_tmp_all_com$km_id,ref='1')
     cox <- coxph(Surv(clin_data_tmp_all_com$intxsurv, clin_data_tmp_all_com$dead) ~ ipssr + mdstype + HMA + CHEMO +km_id, data=clin_data_tmp_all_com)
     p1=ggforest(cox, data=clin_data_tmp_all_com,fontsize =0.8)
     options(repr.plot.width=8, repr.plot.height=6) 
