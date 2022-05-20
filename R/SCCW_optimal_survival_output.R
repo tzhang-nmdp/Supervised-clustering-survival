@@ -16,7 +16,7 @@ optimal_clustering_setting<-function(genomic_matrix_cluster, genomic_matrix_clus
         
     # validation subset samples
     if (exists("input_matrix_r"))
-        {
+        {print("input_matrix_r")
         load(paste(outdir,"/",km_name,"_delta_",delta_best,"_K_",kk_x_best,"_oob_1marker_cutoff",marker_cutoff_metrics,"_val_model.RData",sep="")) 
         km_mc_cluster_id_score_matrix <-validation_predict(km_mc_model, input_matrix_r, stat_go_weight_vector, marker_index, marker_cutoff_metrics, as.numeric(kk_x_best), num_oob)   
         km_cluster_id<-km_mc_cluster_id_score_matrix[[2]]
@@ -31,6 +31,7 @@ optimal_clustering_setting<-function(genomic_matrix_cluster, genomic_matrix_clus
         } else {
         clin_data_tmp_all_com<-clin_data_tmp1_com
         }
+
     # plot heatmap for different clinical phenotype                    
     annotation_col<-as.data.frame(clin_data_tmp_all_com[,c('km_id','mdstype','ipssr','HCT.CI')])
     colnames(annotation_col)<-c('subgroup','mdstype','ipssr','HCT.CI')
@@ -38,22 +39,23 @@ optimal_clustering_setting<-function(genomic_matrix_cluster, genomic_matrix_clus
     options(repr.plot.width=12, repr.plot.height=6)
     p0<-pheatmap(t(annotation_col),cluster_row=F,cluster_col=F,fontsize=20)                  
     save_pheatmap_pdf(p0,paste(outdir,"/",km_name,"_kk_x_",kk_x_best,"_delta_",delta_best,"_oob_1_km_clin.pdf",sep=""))
-
+ 
+    
     # coxph mutlivariate forest plot of Kmeans clustering
     cox <- coxph(Surv(clin_data_tmp_all_com$intxsurv, clin_data_tmp_all_com$dead) ~ ipssr + mdstype + HMA + CHEMO +km_id, data=clin_data_tmp_all_com)
     p1=ggforest(cox, data=clin_data_tmp_all_com,fontsize =0.8)
     options(repr.plot.width=8, repr.plot.height=6) 
     tiff(paste(outdir,"/",km_name,"_kk_x_",kk_x_best,"_delta_",delta_best,"_oob_1_km_clin_cox_val.tiff",sep=""),width = 2000, height =1500,res=300) 
     print(p1 +  theme_set(theme_grey(base_size = 15)) )
-    dev.off()   
-
+    dev.off()  
+    
     # keplan-Meier survival curve of Kmeans clustering
-    surv<- survfit(Surv(clin_data_tmp_all_com$intxsurv, clin_data_tmp_all_com$dead) ~km_id, data=clin_data_tmp_all_com)
-    p2<-ggsurvplot(surv, conf.int = FALSE, data = clin_data_tmp_all_com, pval = F,pval.method = TRUE, risk.table = TRUE,tables.height = 0.2,tables.theme = theme_cleantable(), font.main = c(20, "bold", "black"),font.x = c(20, "bold.italic", "black"),font.y = c(20, "bold.italic", "black"),font.tickslab = c(20, "bold", "black"), font.table=c(20, "bold", "black"))
+    surv<- survminer::surv_fit(Surv(clin_data_tmp_all_com$intxsurv, clin_data_tmp_all_com$dead) ~km_id, data=clin_data_tmp_all_com)
+    p2<-ggsurvplot(surv,data = clin_data_tmp_all_com, conf.int = FALSE,  pval = F,pval.method = TRUE, risk.table = TRUE,tables.height = 0.2,tables.theme = theme_cleantable(), font.main = c(20, "bold", "black"),font.x = c(20, "bold.italic", "black"),font.y = c(20, "bold.italic", "black"),font.tickslab = c(20, "bold", "black"), font.table=c(20, "bold", "black"))
     options(repr.plot.width=8, repr.plot.height=7)  
     tiff(paste(outdir,"/",km_name,"_kk_x_",kk_x_best,"_delta_",delta_best,"_oob_1_km_clin_surv_val.tiff",sep=""),width = 2000, height =1500,res=300) 
     print(p2)
-    dev.off()  
-        
+    dev.off()   
+    
     return(list(clin_data_tmp_all_com, kk_x_best, delta_best))
     }
