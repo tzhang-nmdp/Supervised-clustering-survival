@@ -22,7 +22,7 @@ install_github("tzhang-nmdp/Supervised-clustering-survival")
 ``` r
 Rscript /Supervised-clustering-survival/R/SCCW_supervised_clustering.R \
 -i  ${genomic_data}.RData \ # input matrix for genomic data
--o v/g \ # running model option ( 'v' for variant level of common variant analysis, 'g' for gene level of rare variant analysis)
+-o ***variant/gene \ # running model option ( 'v' for variant level of common variant analysis, 'g' for gene level of rare variant analysis)
 -d ${outdir} \  # output directory
 -k 5 # k_fold setting for cross-validation
 ```
