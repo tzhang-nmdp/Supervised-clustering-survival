@@ -39,6 +39,7 @@ Rscript /Supervised-clustering-survival/R/SCCW_supervised_clustering.R \
 
 ### input data
 ![INPUT](https://github.com/tzhang-nmdp/Supervised-clustering-survival/blob/main/Example/Input.PNG)
+!Variant-gene-dictionary(https://github.com/tzhang-nmdp/Supervised-clustering-survival/blob/main/Example/variant_gene_dict.PNG)
 
 ### output data
 1. Clustering model file: ***.model.RData
