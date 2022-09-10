@@ -37,9 +37,9 @@ Rscript /Supervised-clustering-survival/R/SCCW_supervised_clustering.R \
 -k 5 # k_fold setting for cross-validation
 ```
 
-### input data
+### input data  (to be created from VCF and survival outcome information)
 ![INPUT](https://github.com/tzhang-nmdp/Supervised-clustering-survival/blob/main/Example/Input.PNG)
-### Variant-gene-dictionary (need be created from gene variant annotation)
+### Variant-gene-dictionary (to be created from gene variant annotation)
 ![Variant-gene-dictionary](https://github.com/tzhang-nmdp/Supervised-clustering-survival/blob/main/Example/variant_gene_dict.png)
 
 ### output data
