@@ -13,8 +13,10 @@ This is supervised clustering with integrated weighting of both GO semantic simi
 ## Installation:
 
 ``` r
+# Docker installation
 docker build -t Supervised-clustering-survival:main .
 
+# R installation
 library(devtools)
 install_github("tzhang-nmdp/Supervised-clustering-survival@main")
 ```
