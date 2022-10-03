@@ -82,14 +82,14 @@ print("main workflow")
 # pre-regulation of genomic matrix
 if (opc=="test_gene")
     {
-    germ_somatic_vcf_0.000001_gene_clin_kn_tmp$intxsurv<-0                                          
-    germ_somatic_vcf_0.000001_gene_clin_kn_tmp$dead<-0         
-    germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,c('intxsurv','dead')]<-clin_data_kn[match(rownames(germ_somatic_vcf_0.000001_gene_clin_kn_tmp),clin_data_kn$formattedRID_LabCorpID),c('intxsurv','dead')] 
+    genomic_gene_clin$intxsurv<-0                                          
+    genomic_gene_clin$dead<-0         
+    genomic_gene_clin[,c('intxsurv','dead')]<-clin_data_kn[match(rownames(genomic_gene_clin),clin_data_kn$formattedRID_LabCorpID),c('intxsurv','dead')] 
     # remove low variation variables
-    germ_somatic_vcf_0.000001_gene_clin_kn_tmp<-germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,c(which(colSums(germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,1:(dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-2)])<=dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[1]*vpc & colSums(germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,1:(dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-2)])>=vc),dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-1,dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2])]
+    genomic_gene_clin<-genomic_gene_clin[,c(which(colSums(genomic_gene_clin[,1:(dim(genomic_gene_clin)[2]-2)])<=dim(genomic_gene_clin)[1]*vpc & colSums(genomic_gene_clin[,1:(dim(genomic_gene_clin)[2]-2)])>=vc),dim(genomic_gene_clin)[2]-1,dim(genomic_gene_clin)[2])]
     # subset for testing
-    germ_somatic_vcf_0.000001_gene_clin_kn_tmp<-germ_somatic_vcf_0.000001_gene_clin_kn_tmp[,c(1:2000,dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-1,dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2])]
-    genomic_matrix_reg<-distance_L1_GO_regulation_v(germ_somatic_vcf_0.000001_gene_clin_kn_tmp, dim(germ_somatic_vcf_0.000001_gene_clin_kn_tmp)[2]-1, -6)
+    genomic_gene_clin<-genomic_gene_clin[,c(1:2000,dim(genomic_gene_clin)[2]-1,dim(genomic_gene_clin)[2])]
+    genomic_matrix_reg<-distance_L1_GO_regulation_v(genomic_gene_clin, dim(genomic_gene_clin)[2]-1, -6)
     } else if ((!(grepl("test",opc))) && (!(grepl("_L1",opc)))) {
     genomic_matrix_reg<-distance_regulation(input_genomic_matrix, dim(input_genomic_matrix)[2]-1, -6) 
     } else if ((!(grepl("test",opc))) && (grepl( "gene",opc))) {
