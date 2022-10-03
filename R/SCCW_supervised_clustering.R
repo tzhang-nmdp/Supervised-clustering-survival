@@ -84,7 +84,7 @@ if (opc=="test_gene")
     {
     genomic_gene_clin$intxsurv<-0                                          
     genomic_gene_clin$dead<-0         
-    genomic_gene_clin[,c('intxsurv','dead')]<-clin_data_kn[match(rownames(genomic_gene_clin),clin_data_kn$formattedRID_LabCorpID),c('intxsurv','dead')] 
+    genomic_gene_clin[,c('intxsurv','dead')]<-clin_data[match(rownames(genomic_gene_clin),clin_data$formattedRID_LabCorpID),c('intxsurv','dead')] 
     # remove low variation variables
     genomic_gene_clin<-genomic_gene_clin[,c(which(colSums(genomic_gene_clin[,1:(dim(genomic_gene_clin)[2]-2)])<=dim(genomic_gene_clin)[1]*vpc & colSums(genomic_gene_clin[,1:(dim(genomic_gene_clin)[2]-2)])>=vc),dim(genomic_gene_clin)[2]-1,dim(genomic_gene_clin)[2])]
     # subset for testing
