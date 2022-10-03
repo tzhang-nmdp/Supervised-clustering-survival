@@ -32,7 +32,7 @@ Rscript /Supervised-clustering-survival/R/SCCW_supervised_clustering.R \
 ``` r
 Rscript /Supervised-clustering-survival/R/SCCW_supervised_clustering.R \
 -i  /Supervised-clustering-survival/Example/genomic_data_vcf.RData \ # input matrix for genomic data
--o test_gene \ # running model option ( 'v' for variant level of common variant analysis, 'g' for gene level of rare variant analysis)
+-o test_gene \ # running model option ( 'variant' for variant level of common variant analysis, 'gene' for gene level of rare variant analysis)
 -d /Supervised-clustering-survival/Example \  # output directory
 -k 5 # k_fold setting for cross-validation
 ```
