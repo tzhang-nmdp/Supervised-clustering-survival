@@ -14,7 +14,7 @@ This is supervised clustering with integrated weighting of both GO semantic simi
 
 ``` r
 # Docker installation
-docker build -t Supervised-clustering-survival:main .
+docker build -t supervised-clustering-survival:main .
 
 # R installation
 library(devtools)
