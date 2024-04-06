@@ -46,13 +46,21 @@ map(paste0(sources_path, file.sources), source)
 ################################################################################################################################################################################
 # loading the data and parameter settings
 
-option_list<-list(make_option(c("-i", "--input_file"),type="character",help="input file", default=NA,metavar="filename"), make_option(c("-d", "--output_dir"),type="character",help="output dir", default=NA,metavar="filename"), make_option(c("-o", "--output_file"),type="character",help="output file", default=NA,metavar="filename"), make_option(c("-k", "--input_kfolds"),type="character",help="input kfolds", default=NA,metavar="filename"))
+option_list<-list(make_option(c("-i", "--input_file"),type="character",help="input file", default=NA,metavar="filename"), make_option(c("-d", "--output_dir"),type="character",help="output dir", default=NA,metavar="filename"), make_option(c("-o", "--output_file"),type="character",help="output file", default=NA,metavar="filename"), make_option(c("-c", "--clin_data"),type="character",help="clin data", default=NA,metavar="filename"), make_option(c("-v", "--variant gene id dict"),type="character",help="variant_gene_id_dict", default=NA,metavar="filename"), make_option(c("-k", "--input_kfolds"),type="character",help="input kfolds", default=NA,metavar="filename"))
 opt_parser<-OptionParser(option_list=option_list)
 opt=parse_args(opt_parser)
 
 # load genomic data and extra information
 input<-as.character(opt$input_file)
 load(input)
+if (clin_data)
+    {
+    clin_data<-read.table(opt$clin_data,sep="\t",header=T)
+    }
+if (variant_gene_id_dict)
+    {
+    variant_gene_id_dict<-read.table(opt$variant_gene_id_dict,sep="\t",header=T)
+    }
 
 # outdir setting
 outdir<-as.character(opt$output_dir)
