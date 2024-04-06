@@ -37,7 +37,7 @@ pacman::p_load("survival")
 pacman::p_load("xgboost")
 
 # load the packages
-sources_path <- c("/Supervised-clustering-survival/R/")
+sources_path <- c("Supervised-clustering-survival/R/")
 file.sources = list.files(sources_path,pattern="*.R")
 file.sources =file.sources[which(file.sources!='SCCW_supervised_clustering.R')]
 #sapply(file.sources,source,.GlobalEnv)
