@@ -53,13 +53,17 @@ opt=parse_args(opt_parser)
 # load genomic data and extra information
 input<-as.character(opt$input_file)
 load(input)
-if (!(exists(clin_data)))
+if (!(exists(clin_data)) && exists(opt$input_file))
     {
     clin_data<-read.table(opt$clin_data,sep="\t",header=T)
+    } else {
+    print("clin data is not available")
     }
-if (!(exists(variant_gene_id_dict)))
+if (!(exists(variant_gene_id_dict)) && exists(opt$variant_gene_id_dict)))
     {
     variant_gene_id_dict<-read.table(opt$variant_gene_id_dict,sep="\t",header=T)
+    }else {
+    print("variant gene id dict is not available")
     }
 
 # outdir setting
