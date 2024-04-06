@@ -73,7 +73,7 @@ go_weight_normalization_v<- function(input_matrix,marker_index)
     # check gene GO score availability
     nk_gene_go_list<-values(all_wgs_gene_go_new)[values(all_wgs_gene_go_new) %in% colnames(feature_weight_go)]                                     
     for (i in 1:(marker_index-1))
-     {gg<-unique(variant_gene_id_dict[variant_gene_id_dict$V1==paste(unlist(str_split(colnames(input_matrix)[i],ix))[1],unlist(str_split(colnames(input_matrix)[i],ix))[2],sep=':'),3])
+     {gg<-as.character(unique(variant_gene_id_dict[variant_gene_id_dict$V1==paste(unlist(str_split(colnames(input_matrix)[i],ix))[1],unlist(str_split(colnames(input_matrix)[i],ix))[2],sep=':'),3]))
          if ( gg %in% colnames(feature_weight_go))
             {
             input_matrix[,i]<-sapply(input_matrix[,i],function(x) x*feature_weight_go[,which(colnames(feature_weight_go)==gg)])
