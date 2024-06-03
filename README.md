@@ -51,4 +51,6 @@ Rscript Supervised-clustering-survival/R/SCCW_supervised_clustering.R \
 2. Model metrics file: ***.csv
 3. Survival plot file: ***.tiff
 
-
+### Citation
+Please cite our paper in *Journal of Hematology & Oncology*:
+[Whole-genome sequencing identifies novel predictors for hematopoietic cell transplant outcomes for patients with myelodysplastic syndrome: a CIBMTR study](https://jhoonline.biomedcentral.com/articles/10.1186/s13045-023-01431-7).
